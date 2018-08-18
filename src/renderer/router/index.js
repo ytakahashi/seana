@@ -11,6 +11,16 @@ export default new Router({
       component: require('@/components/LandingPage').default
     },
     {
+      path: '/image',
+      name: 'image',
+      component: require('@/components/DockerImages').default
+    },
+    {
+      path: '/container',
+      name: 'container',
+      component: require('@/components/DockerContainers').default
+    },
+    {
       path: '*',
       redirect: '/'
     }
