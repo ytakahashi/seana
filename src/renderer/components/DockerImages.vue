@@ -4,12 +4,19 @@
 
     <div class="container">
 
-      <div class="column is-half is-offset-one-quarter">
-        <router-link to="/container" class="button is-primary is-outlined">Container</router-link>
-        <a class="button is-primary is-outlined" @click="callImage">Images</a>
+      <div class="tabs is-toggle is-fullwidth">
+        <ul>
+          <li><router-link to="/">Top</router-link></li>
+          <li>
+            <router-link to="/container">Containers</router-link>
+          </li>
+          <li class="is-active">
+            <router-link to="/image">Images</router-link>
+          </li>
+        </ul>
       </div>
-      
-      <div class="column is-half is-offset-one-quarter">
+
+      <div class="column is-8 is-offset-2">
 
         <image-panel v-if="imageCmdCalled" v-for="image in imageList" :key="image.imageId+image.tag+image.repository"
           :repository="image.repo"
@@ -20,8 +27,6 @@
         </image-panel>
 
       </div>
-
-      <router-link to="/" class="button is-primary is-outlined">Top</router-link>
 
     </div>
   </div>

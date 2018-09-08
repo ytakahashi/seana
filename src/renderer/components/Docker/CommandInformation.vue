@@ -1,6 +1,6 @@
 <template>
   <div class="columns">
-    <div class="column is-half is-offset-one-quarter">
+    <div class="column is-8 is-offset-2">
 
       <article v-if="err" class="message is-danger">
         <div class="message-header">

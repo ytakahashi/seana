@@ -8,6 +8,7 @@
       <div class="column">
         <span v-if="running" class="tag is-info">Running</span>
         <span v-if="stopping" class="tag is-warning">Stopping</span>
+        <span v-if="deleted" class="tag is-danger">Deleted</span>
       </div>
     </div>
 
@@ -82,21 +83,20 @@
     methods: {
       startContainer (containerId) {
         this.commandResult = execSync(`docker start ${containerId}`).toString()
-        console.log(this.commandResult)
         this.running = true
         this.stopping = false
         this.executed = 'start'
       },
       stopContainer (containerId) {
         this.commandResult = execSync(`docker stop ${containerId}`).toString()
-        console.log(this.commandResult)
         this.running = false
         this.stopping = true
         this.executed = 'stop'
       },
       deleteContainer (containerId) {
         this.commandResult = execSync(`docker rm ${containerId}`).toString()
-        console.log(this.commandResult)
+        this.deleted = true
+        this.stopping = false
         this.executed = 'rm'
       },
       checkStatus () {
@@ -113,7 +113,8 @@
         executed: null,
         commandResult: null,
         running: null,
-        stopping: null
+        stopping: null,
+        deleted: null
       }
     },
     mounted () {

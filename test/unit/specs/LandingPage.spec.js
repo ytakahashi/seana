@@ -1,13 +1,14 @@
-import Vue from 'vue'
 import LandingPage from '@/components/LandingPage'
+import { shallowMount } from '@vue/test-utils'
 
 describe('LandingPage.vue', () => {
   it('should render correct contents', () => {
-    const vm = new Vue({
-      el: document.createElement('div'),
-      render: h => h(LandingPage)
-    }).$mount()
-    
-    expect(vm.$el.querySelector('img').src).to.contain('logo_transparent')
+    const wrapper = shallowMount(LandingPage, {
+      stubs: {
+        CommandInformation: '<div>CommandInformation</div>'
+      }
+    })
+
+    expect(wrapper.findAll('li')).to.have.length(3)
   })
 })

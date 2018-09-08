@@ -1,12 +1,14 @@
 {
   "name": "docker-gui",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "ytakahashi <yt01tc@gmail.com>",
   "description": "A graphical UI for docker",
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
+    "build:mac": "node .electron-vue/build.js && electron-builder --mac --x64",
+    "build:win": "node .electron-vue/build.js && electron-builder --win --x64",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
@@ -64,6 +66,7 @@
     "vuex": "^2.3.1"
   },
   "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.25",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
