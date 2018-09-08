@@ -3,13 +3,20 @@
   <div id="wrapper">
 
     <div class="container">
-    
-      <div class="column is-half is-offset-one-quarter">
-        <a class="button is-link is-outlined" @click="callContainer">Containers</a>
-        <router-link to="/image" class="button is-primary is-outlined">Image</router-link>
-      </div>
       
-      <div class="column is-half is-offset-one-quarter">
+      <div class="tabs is-toggle is-fullwidth">
+        <ul>
+          <li><router-link to="/">Top</router-link></li>
+          <li class="is-active">
+            <router-link to="/container">Containers</router-link>
+          </li>
+          <li>
+            <router-link to="/image">Images</router-link>
+          </li>
+        </ul>
+      </div>
+
+      <div class="column is-8 is-offset-2">
 
         <container-panel v-if="containerCmdCalled" v-for="container in containerList" :key="container.containerId+container.created"
           :containerId="container.containerId"
@@ -23,8 +30,6 @@
       
       </div>
 
-      <router-link to="/" class="button is-primary is-outlined">Top</router-link>
-
     </div>
   </div>
 
@@ -33,7 +38,7 @@
 <script>
   import ImagePanel from './Docker/ImagePanel'
   import ContainerPanel from './Docker/ContainerPanel'
-
+  
   const {promisify} = require('util')
   const exec = require('child_process').exec
   const execute = (arg) => promisify(exec)(arg)

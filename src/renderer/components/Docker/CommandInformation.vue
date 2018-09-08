@@ -1,6 +1,6 @@
 <template>
   <div class="columns">
-    <div class="column is-half is-offset-one-quarter">
+    <div class="column is-8 is-offset-2">
 
       <article v-if="err" class="message is-danger">
         <div class="message-header">
@@ -29,10 +29,10 @@
 
 
 <script>
-  const {promisify} = require('util')
-  const exec = require('child_process').exec
+  // const {promisify} = require('util')
+  // const exec = require('child_process').exec
 
-  const execPromise = promisify(exec)
+  // const execPromise = promisify(exec)
 
   export default {
     data () {
@@ -43,11 +43,12 @@
     },
     methods: {
       async checkVersion () {
-        const result = await execPromise('docker -v')
-          .catch(this.handleError)
-          .then(r => r)
+        // const result = await execPromise('docker -v')
+        //   .catch(this.handleError)
+        //   .then(r => r)
 
-        this.version = result
+        // this.version = result
+        this.version = process.env.PATH
       },
       handleError () {
         this.err = true
