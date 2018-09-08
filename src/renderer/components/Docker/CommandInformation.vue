@@ -29,10 +29,10 @@
 
 
 <script>
-  // const {promisify} = require('util')
-  // const exec = require('child_process').exec
+  const {promisify} = require('util')
+  const exec = require('child_process').exec
 
-  // const execPromise = promisify(exec)
+  const execPromise = promisify(exec)
 
   export default {
     data () {
@@ -43,12 +43,11 @@
     },
     methods: {
       async checkVersion () {
-        // const result = await execPromise('docker -v')
-        //   .catch(this.handleError)
-        //   .then(r => r)
+        const result = await execPromise('docker -v')
+          .catch(this.handleError)
+          .then(r => r)
 
-        // this.version = result
-        this.version = process.env.PATH
+        this.version = result
       },
       handleError () {
         this.err = true

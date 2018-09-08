@@ -15,6 +15,15 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
+process.env.PATH = [
+  '/bin',
+  '/sbin',
+  '/usr/bin',
+  '/usr/sbin',
+  '/usr/local/bin',
+  process.env.PATH
+].join(':')
+
 function createWindow () {
   /**
    * Initial window options

@@ -4,7 +4,9 @@
 
     <div class="tabs is-toggle is-fullwidth">
       <ul>
-        <li class="is-active"><a>Top</a></li>
+        <li class="is-active">
+          <a>Top</a>
+        </li>
         <li>
           <router-link to="/container">Containers</router-link>
         </li>
@@ -16,7 +18,6 @@
 
     <div class="container">
       <command-information></command-information>
-
     </div>
 
   </div>

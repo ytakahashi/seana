@@ -51,12 +51,12 @@
       this.command = values[2]
       this.created = values[3]
       this.status = values[4]
-      if (isNaN(values[5])) {
-        this.ports = 'N/A'
-        this.names = values[5]
-      } else {
+      if (values[6]) {
         this.ports = values[5]
         this.names = values[6]
+      } else {
+        this.ports = 'N/A'
+        this.names = values[5]
       }
     }
   }
