@@ -64,15 +64,13 @@
         this.showRunContainer = true
       },
       execRunContainer (repository, tag, option) {
-        const command = `docker run ${option} ${repository}:${tag}`
+        const command = `docker run ${option === null ? '' : option} ${repository}:${tag}`
         this.commandResult = execSync(command).toString()
-        console.log(this.commandResult)
         this.executedCommand = command
       },
       deleteImage () {
         const command = `docker image rm ${this.imageId}`
         this.commandResult = execSync(command).toString()
-        console.log(this.commandResult)
         this.executedCommand = command
       }
     },

@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'docker-gui'
+    name: 'Seana'
   }
 </script>
 
