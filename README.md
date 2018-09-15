@@ -1,4 +1,4 @@
-# docker-gui
+# Seana
 
 A simple graphical UI for docker.
 
@@ -7,8 +7,8 @@ A simple graphical UI for docker.
 ## Getting Started
 
 ```console
-git clone https://github.com/ytakahashi/docker-gui.git
-cd docker-gui
+git clone https://github.com/ytakahashi/seana.git
+cd seana
 yarn
 ```
 

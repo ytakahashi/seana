@@ -10,7 +10,7 @@
       </p>
 
       <a class="button is-link is-outlined" @click="runContainer">Run a container</a>
-      <a class="button is-danger is-outlined">Delete This Image</a>
+      <a class="button is-danger is-outlined" @click="deleteImage">Delete This Image</a>
     </div>
 
     <div class="content">
@@ -64,9 +64,13 @@
         this.showRunContainer = true
       },
       execRunContainer (repository, tag, option) {
-        const command = `docker run ${option} ${repository}:${tag}`
+        const command = `docker run ${option === null ? '' : option} ${repository}:${tag}`
         this.commandResult = execSync(command).toString()
-        console.log(this.commandResult)
+        this.executedCommand = command
+      },
+      deleteImage () {
+        const command = `docker image rm ${this.imageId}`
+        this.commandResult = execSync(command).toString()
         this.executedCommand = command
       }
     },

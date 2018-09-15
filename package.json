@@ -1,5 +1,5 @@
 {
-  "name": "docker-gui",
+  "name": "Seana",
   "version": "0.0.1",
   "author": "ytakahashi <yt01tc@gmail.com>",
   "description": "A graphical UI for docker",
@@ -24,8 +24,8 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "docker-gui",
-    "appId": "org.simulatedgreg.electron-vue",
+    "productName": "Seana",
+    "appId": "org.ytakahashi.seana",
     "directories": {
       "output": "build"
     },
