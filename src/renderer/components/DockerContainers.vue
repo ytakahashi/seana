@@ -3,7 +3,7 @@
   <div id="wrapper">
 
     <div class="container">
-      
+
       <div class="tabs is-toggle is-fullwidth">
         <ul>
           <li><router-link to="/">Top</router-link></li>
@@ -17,6 +17,10 @@
       </div>
 
       <div class="column is-8 is-offset-2">
+        <a class="button is-outlined" @click="callContainer">Refresh</a>
+      </div>
+
+      <div class="column is-8 is-offset-2">
 
         <container-panel v-if="containerCmdCalled" v-for="container in containerList" :key="container.containerId+container.created"
           :containerId="container.containerId"
@@ -27,7 +31,7 @@
           :ports="container.ports"
           :names="container.names">
         </container-panel>
-      
+
       </div>
 
     </div>
@@ -36,9 +40,8 @@
 </template>
 
 <script>
-  import ImagePanel from './Docker/ImagePanel'
   import ContainerPanel from './Docker/ContainerPanel'
-  
+
   const {promisify} = require('util')
   const exec = require('child_process').exec
   const execute = (arg) => promisify(exec)(arg)
@@ -63,16 +66,13 @@
 
   export default {
     components: {
-      ImagePanel,
       ContainerPanel
     },
     data () {
       return {
         input: '',
         result: null,
-        imageCmdCalled: null,
         containerCmdCalled: null,
-        imageList: null,
         containerList: null
       }
     },
@@ -82,8 +82,10 @@
     methods: {
       async callContainer () {
         const val = await execute('docker container ls -a')
-        const textArray = val.split(/\r\n|\r|\n/)
-        this.imageCmdCalled = false
+        // const textArray = val.split(/\r\n|\r|\n/)
+        this.updateContainerList(val.split(/\r\n|\r|\n/))
+      },
+      updateContainerList (textArray) {
         this.containerCmdCalled = true
 
         this.containerList = []

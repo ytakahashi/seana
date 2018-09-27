@@ -81,31 +81,29 @@
       }
     },
     methods: {
+      runCommand (command) {
+        return execSync(command).toString()
+      },
       startContainer (containerId) {
-        this.commandResult = execSync(`docker start ${containerId}`).toString()
+        this.commandResult = this.runCommand(`docker start ${containerId}`)
         this.running = true
         this.stopping = false
+        this.deleted = false
         this.executed = 'start'
       },
       stopContainer (containerId) {
-        this.commandResult = execSync(`docker stop ${containerId}`).toString()
+        this.commandResult = this.runCommand(`docker stop ${containerId}`)
         this.running = false
         this.stopping = true
+        this.deleted = false
         this.executed = 'stop'
       },
       deleteContainer (containerId) {
-        this.commandResult = execSync(`docker rm ${containerId}`).toString()
-        this.deleted = true
+        this.commandResult = this.runCommand(`docker rm ${containerId}`)
+        this.running = false
         this.stopping = false
+        this.deleted = true
         this.executed = 'rm'
-      },
-      checkStatus () {
-        const containerStatus = this.status.split(/\s/)[0]
-        if (containerStatus === 'Up') {
-          this.running = true
-        } else {
-          this.stopping = true
-        }
       }
     },
     data () {

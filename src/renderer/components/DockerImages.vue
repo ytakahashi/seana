@@ -17,8 +17,12 @@
       </div>
 
       <div class="column is-8 is-offset-2">
+        <a class="button is-outlined" @click="callImage">Refresh</a>
+      </div>
 
-        <image-panel v-if="imageCmdCalled" v-for="image in imageList" :key="image.imageId+image.tag+image.repository"
+      <div v-if="imageCmdCalled" class="column is-8 is-offset-2">
+
+        <image-panel v-for="image in imageList" :key="image.imageId+image.tag+image.repository"
           :repository="image.repo"
           :tag="image.tag"
           :imageId="image.imageId"
@@ -69,9 +73,10 @@
     methods: {
       async callImage () {
         const val = await execute('docker images')
-        const textArray = val.split(/\r\n|\r|\n/)
+        this.updateImageList(val.split(/\r\n|\r|\n/))
+      },
+      updateImageList (textArray) {
         this.imageCmdCalled = true
-        this.containerCmdCalled = false
 
         this.imageList = []
         for (let i = 1; i < textArray.length - 1; i++) {
