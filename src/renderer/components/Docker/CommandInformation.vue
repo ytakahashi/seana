@@ -32,8 +32,6 @@
   const {promisify} = require('util')
   const exec = require('child_process').exec
 
-  const execPromise = promisify(exec)
-
   export default {
     data () {
       return {
@@ -42,8 +40,11 @@
       }
     },
     methods: {
+      async execPromise (arg) {
+        return promisify(exec)(arg)
+      },
       async checkVersion () {
-        const result = await execPromise('docker -v')
+        const result = await this.execPromise('docker -v')
           .catch(this.handleError)
           .then(r => r)
 

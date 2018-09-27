@@ -14,7 +14,7 @@
     </div>
 
     <div class="content">
-      <div class="field has-addons" v-if="showRunContainer">
+      <div class="field has-addons" v-show="showRunContainer">
         <p class="control">
           <a class="button is-static">
             docker run
@@ -60,17 +60,20 @@
 
   export default {
     methods: {
+      runCommand (command) {
+        return execSync(command).toString()
+      },
       runContainer () {
         this.showRunContainer = true
       },
       execRunContainer (repository, tag, option) {
         const command = `docker run ${option === null ? '' : option} ${repository}:${tag}`
-        this.commandResult = execSync(command).toString()
+        this.runCommand(command)
         this.executedCommand = command
       },
       deleteImage () {
         const command = `docker image rm ${this.imageId}`
-        this.commandResult = execSync(command).toString()
+        this.runCommand(command)
         this.executedCommand = command
       }
     },
