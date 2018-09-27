@@ -27,12 +27,13 @@ before_install:
   | tar -xz -C /tmp/git-lfs --strip-components 1 && /tmp/git-lfs/git-lfs pull
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils; fi
 install:
-  - nvm install 10
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - source ~/.bashrc
-  - npm install -g xvfb-maybe
-  - yarn
+- nvm install 10
+- curl -o- -L https://yarnpkg.com/install.sh | bash
+- source ~/.bashrc
+- npm install -g xvfb-maybe
+- yarn
 script:
-  - yarn test
-  - yarn run build
+- xvfb-maybe node_modules/.bin/karma start test/unit/karma.conf.js
+- yarn run pack && xvfb-maybe node_modules/.bin/mocha test/e2e
+- yarn run build
 
