@@ -1,6 +1,7 @@
 /* eslint no-unused-expressions: 0 */
 
 import DockerImages from '@/components/DockerImages'
+import { shallowMount } from '@vue/test-utils'
 
 describe('DockerImages.vue', () => {
   it('can create ecpected DockerImage object', () => {
@@ -34,5 +35,24 @@ describe('DockerImages.vue', () => {
       .that.has.lengthOf(2)
     expect(localThis.imageList[0]).to.deep.equal(expected0)
     expect(localThis.imageList[1]).to.deep.equal(expected1)
+  })
+
+  it('should compute filteredImages (name: "test")', () => {
+    const image1 = { repo: 'test', tag: '1.0' }
+    const image2 = { repo: 'foo', tag: '2.0' }
+    const image3 = { repo: 'bar', tag: '1.4' }
+    const image4 = { repo: 'baz', tag: '5.0' }
+    const imageList = [image1, image2, image3, image4]
+
+    const wrapper = shallowMount(DockerImages)
+    wrapper.setData({
+      imageList: imageList,
+      searchQuery: 'test'
+    })
+
+    expect(wrapper.vm.filteredImages)
+      .to.be.an('array')
+      .that.has.lengthOf(1)
+    expect(wrapper.vm.filteredImages[0]).to.deep.equal(image1)
   })
 })

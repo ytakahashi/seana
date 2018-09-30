@@ -16,13 +16,39 @@
         </ul>
       </div>
 
-      <div class="column is-8 is-offset-2">
+      <div  v-if="containerCmdCalled" class="column is-8 is-offset-2">
         <a class="button is-outlined" @click="callContainer">Refresh</a>
       </div>
 
-      <div class="column is-8 is-offset-2">
+      <div  v-if="containerCmdCalled" class="column is-8 is-offset-2">
 
-        <container-panel v-if="containerCmdCalled" v-for="container in containerList" :key="container.containerId+container.created"
+        <b-field grouped>
+
+          <b-field label="Filter by">
+            <b-select v-model="filterProperty">
+              <option value="filter_name" selected>
+                Container Name
+              </option>
+              <option value="filter_status">
+                Container Status
+              </option>
+              <option value="filter_image">
+                Image Name
+              </option>
+            </b-select>
+          </b-field>
+
+          <b-field label="Query" expanded>
+            <b-input
+              placeholder="Filter images..."
+              type="search"
+              v-model="searchQuery">
+            </b-input>
+          </b-field>
+
+        </b-field>
+
+        <container-panel v-for="container in filteredContainers" :key="container.containerId+container.created"
           :containerId="container.containerId"
           :image="container.image"
           :command="container.command"
@@ -70,6 +96,8 @@
     },
     data () {
       return {
+        filterProperty: '',
+        searchQuery: '',
         input: '',
         result: null,
         containerCmdCalled: null,
@@ -79,10 +107,27 @@
     mounted () {
       this.callContainer()
     },
+    computed: {
+      filteredContainers () {
+        const query = this.searchQuery
+
+        if (this.filterProperty === '' || this.filterProperty === 'filter_name') {
+          return this.containerList.filter(c =>
+            c.names.indexOf(query) !== -1
+          )
+        } else if (this.filterProperty === 'filter_image') {
+          return this.containerList.filter(c =>
+            c.image.indexOf(query) !== -1
+          )
+        }
+        return this.containerList.filter(c =>
+          c.status.indexOf(query) !== -1
+        )
+      }
+    },
     methods: {
       async callContainer () {
         const val = await execute('docker container ls -a')
-        // const textArray = val.split(/\r\n|\r|\n/)
         this.updateContainerList(val.split(/\r\n|\r|\n/))
       },
       updateContainerList (textArray) {
