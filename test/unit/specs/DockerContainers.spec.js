@@ -1,6 +1,7 @@
 /* eslint no-unused-expressions: 0 */
 
 import DockerContainers from '@/components/DockerContainers'
+import { shallowMount } from '@vue/test-utils'
 
 describe('DockerContainers.vue', () => {
   it('can create ecpected DockerContainers object', () => {
@@ -34,5 +35,71 @@ describe('DockerContainers.vue', () => {
       .that.has.lengthOf(2)
     expect(localThis.containerList[0]).to.deep.equal(expected0)
     expect(localThis.containerList[1]).to.deep.equal(expected1)
+  })
+
+  const container1 = { names: 'test', image: 'sample1', status: 'Up 8 hours' }
+  const container2 = { names: 'foo', image: 'alpine', status: 'Exited (0) 1 minute ago' }
+  const container3 = { names: 'bar', image: 'nginx', status: 'Up 10 minutes' }
+  const container4 = { names: 'baz', image: 'ubuntu', status: 'Exited (0) 1 hour ago' }
+  const containerList = [container1, container2, container3, container4]
+
+  it('should compute filteredContainers (name: "test")', () => {
+    const wrapper = shallowMount(DockerContainers)
+
+    wrapper.setData({
+      containerList: containerList,
+      searchQuery: 'test'
+    })
+
+    expect(wrapper.vm.filteredContainers)
+      .to.be.an('array')
+      .that.has.lengthOf(1)
+    expect(wrapper.vm.filteredContainers[0]).to.deep.equal(container1)
+  })
+
+  it('should compute filteredContainers (name: "ba")', () => {
+    const wrapper = shallowMount(DockerContainers)
+
+    wrapper.setData({
+      containerList: containerList,
+      searchQuery: 'ba',
+      filterProperty: 'filter_name'
+    })
+
+    expect(wrapper.vm.filteredContainers)
+      .to.be.an('array')
+      .that.has.lengthOf(2)
+    expect(wrapper.vm.filteredContainers[0]).to.deep.equal(container3)
+    expect(wrapper.vm.filteredContainers[1]).to.deep.equal(container4)
+  })
+
+  it('should compute filteredContainers (image: "nginx")', () => {
+    const wrapper = shallowMount(DockerContainers)
+
+    wrapper.setData({
+      containerList: containerList,
+      searchQuery: 'nginx',
+      filterProperty: 'filter_image'
+    })
+
+    expect(wrapper.vm.filteredContainers)
+      .to.be.an('array')
+      .that.has.lengthOf(1)
+    expect(wrapper.vm.filteredContainers[0]).to.deep.equal(container3)
+  })
+
+  it('should compute filteredContainers (status: "Up")', () => {
+    const wrapper = shallowMount(DockerContainers)
+    wrapper.setData({
+      containerList: containerList,
+      searchQuery: 'Up',
+      filterProperty: 'filter_status'
+    })
+
+    expect(wrapper.vm.filteredContainers)
+      .to.be.an('array')
+      .that.has.lengthOf(2)
+    expect(wrapper.vm.filteredContainers[0]).to.deep.equal(container1)
+    expect(wrapper.vm.filteredContainers[1]).to.deep.equal(container3)
   })
 })

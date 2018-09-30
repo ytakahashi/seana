@@ -16,13 +16,21 @@
         </ul>
       </div>
 
-      <div class="column is-8 is-offset-2">
-        <a class="button is-outlined" @click="callImage">Refresh</a>
+      <div v-if="imageCmdCalled" class="column is-8 is-offset-2">
+          <a class="button is-outlined" @click="callImage">Refresh</a>
       </div>
 
       <div v-if="imageCmdCalled" class="column is-8 is-offset-2">
 
-        <image-panel v-for="image in imageList" :key="image.imageId+image.tag+image.repository"
+        <b-field>
+          <b-input
+            placeholder="Filter images..."
+            type="search"
+            v-model="searchQuery">
+          </b-input>
+        </b-field>
+
+        <image-panel v-for="image in filteredImages" :key="image.imageId+image.tag+image.repository"
           :repository="image.repo"
           :tag="image.tag"
           :imageId="image.imageId"
@@ -61,6 +69,7 @@
     },
     data () {
       return {
+        searchQuery: '',
         input: '',
         result: null,
         imageCmdCalled: null,
@@ -69,6 +78,14 @@
     },
     mounted () {
       this.callImage()
+    },
+    computed: {
+      filteredImages () {
+        const query = this.searchQuery
+        return this.imageList.filter(
+          image => image.repo.indexOf(query) !== -1
+        )
+      }
     },
     methods: {
       async callImage () {
