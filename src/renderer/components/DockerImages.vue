@@ -17,7 +17,7 @@
       </div>
 
       <div v-if="imageCmdCalled" class="column is-8 is-offset-2">
-          <a class="button is-outlined" @click="callImage">Refresh</a>
+        <a class="button is-outlined" @click="callImage">Refresh</a>
       </div>
 
       <div v-if="imageCmdCalled" class="column is-8 is-offset-2">

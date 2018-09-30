@@ -14,7 +14,7 @@ cd seana
 yarn
 ```
 
-### build an app
+### Build App
 
 ```shell
 yarn build

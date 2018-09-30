@@ -23,13 +23,21 @@
       <div  v-if="containerCmdCalled" class="column is-8 is-offset-2">
 
         <b-field grouped>
+
           <b-field label="Filter by">
-              <b-select v-model="filterProperty">
-                  <option value="filter_name" selected>Container Name</option>
-                  <option value="filter_status">Container Status</option>
-                  <option value="filter_image">Image Name</option>
-              </b-select>
+            <b-select v-model="filterProperty">
+              <option value="filter_name" selected>
+                Container Name
+              </option>
+              <option value="filter_status">
+                Container Status
+              </option>
+              <option value="filter_image">
+                Image Name
+              </option>
+            </b-select>
           </b-field>
+
           <b-field label="Query" expanded>
             <b-input
               placeholder="Filter images..."
@@ -37,6 +45,7 @@
               v-model="searchQuery">
             </b-input>
           </b-field>
+
         </b-field>
 
         <container-panel v-for="container in filteredContainers" :key="container.containerId+container.created"
