@@ -20,16 +20,22 @@
       <command-information></command-information>
     </div>
 
+    <div class="container">
+      <search-panel></search-panel>
+    </div>
+
   </div>
 
 </template>
 
 <script>
   import CommandInformation from './Docker/CommandInformation'
+  import SearchPanel from './Docker/SearchPanel'
 
   export default {
     components: {
-      CommandInformation
+      CommandInformation,
+      SearchPanel
     }
   }
 </script>
