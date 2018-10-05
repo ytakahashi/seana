@@ -1,30 +1,48 @@
 <template>
-  <div class="columns">
-    <div class="column is-8 is-offset-2">
-      <section>
+  <div class="column is-8 is-offset-2 image-boxes">
+    <div class="columns">
+      <div class="column is-10 is-offset-1">
+        <section>
 
-        <button class="button is-medium is-dark" @click="prompt">
-          Search the Docker Hub for images
-        </button>
+          <button class="button is-medium is-fullwidth is-outlined" @click="prompt">
+            Search the Docker Hub for images
+          </button>
 
-      </section>
+        </section>
+      </div>
+    </div>
+
+    <div class="columns">
+
+      <div v-if="okToShow" class="column is-10 is-offset-1">
+
+        <search-result v-for="image in imageList" :key="image.name"
+          :name="image.name"
+          :description="image.description"
+          :stars="image.stars"
+          :official="image.official"
+          :automated="image.automated">
+        </search-result>
+
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
+  import SearchResult from './SearchResult'
+
   const execSync = require('child_process').execSync
 
   class DockerSearchResult {
     constructor (source) {
       const ok = '[OK]'
-      console.log('source', source)
       const values = source.split('#')
-      console.log('values', values)
 
       this.name = values[0]
       this.description = values[1]
-      this.stars = values[2]
+      this.stars = Number(values[2])
       if (values[3] === ok) {
         this.official = true
       } else {
@@ -35,6 +53,7 @@
       } else {
         this.automated = false
       }
+      console.log(this)
     }
   }
 
@@ -42,7 +61,7 @@
     data () {
       return {
         imageList: null,
-        commandResult: null
+        okToShow: false
       }
     },
     methods: {
@@ -62,7 +81,7 @@
         })
       },
       searchImage (value) {
-        const res = this.runCommand(`docker search ${value} --format "{{.Name}}#{{.Description}}#{{.StarCount}}#{{.IsOfficial}}#{{.IsAutomated}}"`)
+        const res = this.runCommand(`docker search ${value} --no-trunc --format "{{.Name}}#{{.Description}}#{{.StarCount}}#{{.IsOfficial}}#{{.IsAutomated}}"`)
         console.log(res)
         this.updateResults(res.split(/\r\n|\r|\n/))
       },
@@ -74,10 +93,20 @@
           this.imageList.push(new DockerSearchResult(textArray[i]))
         }
 
+        this.okToShow = true
         if (this.imageList.length === 0) {
           console.log('No Images.')
         }
       }
+    },
+    components: {
+      SearchResult
     }
   }
 </script>
+
+<style scoped>
+  .image-boxes {
+    background-color: #e6e6fa;
+  }
+</style>
