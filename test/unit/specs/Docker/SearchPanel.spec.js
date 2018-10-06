@@ -5,7 +5,6 @@ describe('DockerContainers.vue', () => {
     const localThis = {
       imageList: null
     }
-
     const result = [
       'foo#Test official build.#1000#[OK]#',
       'test/repository1#Test 2#118#[OK]#[OK]',

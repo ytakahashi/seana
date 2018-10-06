@@ -11,14 +11,12 @@ describe('DockerImages.vue', () => {
       imageCmdCalled: null,
       imageList: null
     }
-
     const strL = [
       'REPOSITORY   TAG   IMAGE ID      CREATED       SIZE',
       'test1        1.0   20345f4a149c  3 weeks ago   100MB',
       'test2        1.1   4382e9a772bf  2 months ago  200MB',
       ''
     ]
-
     DockerImages.methods.updateImageList.call(localThis, strL)
 
     const expected0 = { repo: 'test1', tag: '1.0', imageId: '20345f4a149c', created: '3 weeks ago', size: '100MB' }

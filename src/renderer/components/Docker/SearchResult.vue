@@ -25,9 +25,7 @@
       </b-field>
 
       <p>
-        {{ description }} <br />
-        - official: {{ official }}
-        - automated: {{ automated }}
+        {{ description }}
       </p>
 
       <a class="button is-link is-outlined" @click="view">
