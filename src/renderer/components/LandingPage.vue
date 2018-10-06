@@ -16,6 +16,14 @@
       </ul>
     </div>
 
+    <div class="content">
+      <p>
+        <span class="under">
+          Seana - Simple GUI for Docker
+        </span>
+      </p>
+    </div>
+
     <div class="container">
       <command-information></command-information>
     </div>
@@ -39,3 +47,14 @@
     }
   }
 </script>
+
+<style scoped>
+  p {
+    text-align:center;
+    font-style: italic;
+    font-size:3vw;
+  }
+  .under {
+    background: linear-gradient(transparent 70%, #A9F5F2 70%);
+  }
+</style>

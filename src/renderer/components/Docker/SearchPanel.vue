@@ -107,6 +107,9 @@
 
 <style scoped>
   .image-boxes {
-    background-color: #e6e6fa;
+    margin-top: 5%;
+    color: #666;
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
   }
 </style>
