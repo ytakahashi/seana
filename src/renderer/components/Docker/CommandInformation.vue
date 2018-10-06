@@ -5,7 +5,6 @@
       <article v-if="err" class="message is-danger">
         <div class="message-header">
           <p>Danger</p>
-          <button class="delete" aria-label="delete"></button>
         </div>
         <div class="message-body">
           Command 'docker -v' is not available. <br />
@@ -16,7 +15,6 @@
       <article v-else class="message is-info">
         <div class="message-header">
           <p>Docker version</p>
-          <button class="delete" aria-label="delete"></button>
         </div>
         <div class="message-body">
           {{ version }}

@@ -18,9 +18,7 @@
 
     <div class="content">
       <p>
-        <span class="under">
-          Seana - Simple GUI for Docker
-        </span>
+        Seana - Simple GUI for Docker
       </p>
     </div>
 

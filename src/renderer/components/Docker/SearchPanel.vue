@@ -4,7 +4,7 @@
       <div class="column is-10 is-offset-1">
         <section>
 
-          <button class="button is-medium is-fullwidth is-outlined" @click="prompt">
+          <button class="button is-medium is-light is-fullwidth" @click="prompt">
             Search the Docker Hub for images
           </button>
 
@@ -34,15 +34,16 @@
   import SearchResult from './SearchResult'
 
   const execSync = require('child_process').execSync
+  const ok = '[OK]'
 
   class DockerSearchResult {
     constructor (source) {
-      const ok = '[OK]'
       const values = source.split('#')
 
       this.name = values[0]
       this.description = values[1]
       this.stars = Number(values[2])
+
       if (values[3] === ok) {
         this.official = true
       } else {
@@ -53,7 +54,6 @@
       } else {
         this.automated = false
       }
-      console.log(this)
     }
   }
 
