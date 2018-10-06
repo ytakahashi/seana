@@ -30,7 +30,7 @@
           </b-input>
         </b-field>
 
-        <image-panel v-for="image in filteredImages" :key="image.imageId+image.tag+image.repository"
+        <image-panel v-for="image in filteredImages" :key="image.repo+image.tag+image.imageId"
           :repository="image.repo"
           :tag="image.tag"
           :imageId="image.imageId"

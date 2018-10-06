@@ -16,8 +16,18 @@
       </ul>
     </div>
 
+    <div class="content">
+      <p>
+        Seana - Simple GUI for Docker
+      </p>
+    </div>
+
     <div class="container">
       <command-information></command-information>
+    </div>
+
+    <div class="container">
+      <search-panel></search-panel>
     </div>
 
   </div>
@@ -26,10 +36,23 @@
 
 <script>
   import CommandInformation from './Docker/CommandInformation'
+  import SearchPanel from './Docker/SearchPanel'
 
   export default {
     components: {
-      CommandInformation
+      CommandInformation,
+      SearchPanel
     }
   }
 </script>
+
+<style scoped>
+  p {
+    text-align:center;
+    font-style: italic;
+    font-size:3vw;
+  }
+  .under {
+    background: linear-gradient(transparent 70%, #A9F5F2 70%);
+  }
+</style>

@@ -21,7 +21,7 @@ describe('ImagePanel.vue', () => {
 
   before(() => {
     const runCmd = `docker run ${repository}:${tag}`
-    const deleteCmd = `docker image rm ${imageId}`
+    const deleteCmd = `docker image rm ${repository}:${tag}`
     stub = sinon.stub(wrapper.vm, 'runCommand')
     stub.withArgs(runCmd).returns('container started')
     stub.withArgs(deleteCmd).returns('container stopped')
@@ -45,7 +45,7 @@ describe('ImagePanel.vue', () => {
     expect(wrapper.vm.$data).to.deep.equal(ectecped2)
 
     wrapper.vm.deleteImage()
-    const ectecped3 = { input: null, showRunContainer: true, executedCommand: 'docker image rm 79a4aac10f21' }
+    const ectecped3 = { input: null, showRunContainer: true, executedCommand: 'docker image rm foo/bar:image:1.0' }
     expect(wrapper.vm.$data).to.deep.equal(ectecped3)
 
     expect(wrapper.find('.has-addons').isVisible()).to.be.true

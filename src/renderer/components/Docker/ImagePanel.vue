@@ -72,7 +72,7 @@
         this.executedCommand = command
       },
       deleteImage () {
-        const command = `docker image rm ${this.imageId}`
+        const command = `docker image rm ${this.repository}:${this.tag}`
         this.runCommand(command)
         this.executedCommand = command
       }
