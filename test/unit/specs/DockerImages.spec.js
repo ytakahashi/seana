@@ -31,10 +31,10 @@ describe('DockerImages.vue', () => {
   })
 
   it('should compute filteredImages (name: "test")', () => {
-    const image1 = { repo: 'test', tag: '1.0' }
-    const image2 = { repo: 'foo', tag: '2.0' }
-    const image3 = { repo: 'bar', tag: '1.4' }
-    const image4 = { repo: 'baz', tag: '5.0' }
+    const image1 = { repo: 'test', tag: '1.0', imageId: 'imageId', created: 'created', size: 'size' }
+    const image2 = { repo: 'foo', tag: '2.0', imageId: 'imageId', created: 'created', size: 'size' }
+    const image3 = { repo: 'bar', tag: '1.4', imageId: 'imageId', created: 'created', size: 'size' }
+    const image4 = { repo: 'baz', tag: '5.0', imageId: 'imageId', created: 'created', size: 'size' }
     const imageList = [image1, image2, image3, image4]
 
     const wrapper = shallowMount(DockerImages)

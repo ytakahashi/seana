@@ -30,14 +30,15 @@ describe('DockerContainers.vue', () => {
     expect(localThis.containerList[1]).to.deep.equal(expected1)
   })
 
-  const container1 = { names: 'test', image: 'sample1', status: 'Up 8 hours' }
-  const container2 = { names: 'foo', image: 'alpine', status: 'Exited (0) 1 minute ago' }
-  const container3 = { names: 'bar', image: 'nginx', status: 'Up 10 minutes' }
-  const container4 = { names: 'baz', image: 'ubuntu', status: 'Exited (0) 1 hour ago' }
+  const stubs = ['b-field', 'b-select', 'b-input']
+  const container1 = { names: 'test', image: 'sample1', status: 'Up 8 hours', containerId: 'containerId', command: 'command', created: 'created', ports: 'ports' }
+  const container2 = { names: 'foo', image: 'alpine', status: 'Exited (0) 1 minute ago', containerId: 'containerId', command: 'command', created: 'created', ports: 'ports' }
+  const container3 = { names: 'bar', image: 'nginx', status: 'Up 10 minutes', containerId: 'containerId', command: 'command', created: 'created', ports: 'ports' }
+  const container4 = { names: 'baz', image: 'ubuntu', status: 'Exited (0) 1 hour ago', containerId: 'containerId', command: 'command', created: 'created', ports: 'ports' }
   const containerList = [container1, container2, container3, container4]
 
   it('should compute filteredContainers (name: "test")', () => {
-    const wrapper = shallowMount(DockerContainers)
+    const wrapper = shallowMount(DockerContainers, { stubs: stubs })
     wrapper.setData({
       containerList: containerList,
       searchQuery: 'test'
@@ -48,7 +49,7 @@ describe('DockerContainers.vue', () => {
   })
 
   it('should compute filteredContainers (name: "ba")', () => {
-    const wrapper = shallowMount(DockerContainers)
+    const wrapper = shallowMount(DockerContainers, { stubs: stubs })
     wrapper.setData({
       containerList: containerList,
       searchQuery: 'ba',
@@ -61,7 +62,8 @@ describe('DockerContainers.vue', () => {
   })
 
   it('should compute filteredContainers (image: "nginx")', () => {
-    const wrapper = shallowMount(DockerContainers)
+    const wrapper = shallowMount(DockerContainers, { stubs: stubs })
+
     wrapper.setData({
       containerList: containerList,
       searchQuery: 'nginx',
@@ -73,7 +75,8 @@ describe('DockerContainers.vue', () => {
   })
 
   it('should compute filteredContainers (status: "Up")', () => {
-    const wrapper = shallowMount(DockerContainers)
+    const wrapper = shallowMount(DockerContainers, { stubs: stubs })
+
     wrapper.setData({
       containerList: containerList,
       searchQuery: 'Up',

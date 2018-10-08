@@ -116,6 +116,8 @@
     "sinon": "^6.3.4",
     "spectron": "^3.7.1",
     "style-loader": "^0.18.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
     "url-loader": "^0.5.9",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^13.0.5",

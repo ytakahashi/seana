@@ -33,23 +33,25 @@
       </a>
       <a class="button is-link is-outlined" @click="pull">
         Pull This Image
-        <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
       </a>
     </div>
 
     <div class="content">
       <div class="field has-addons" v-if="command">
 
-        <article class="message is-warning">
-          <div class="message-body">
-            following command has been run: <br />
+        <div class="command-succeed-msg-box">
+            <p>following command has been run:</p>
             <code>
             $ {{ command }}
             </code>
-          </div>
-        </article>
+        </div>
 
       </div>
+    </div>
+
+    <div class="command-err-msg-box" v-if="pullError">
+      <span class="box-title">Failed to pull image.</span>
+      <pre>{{ pullError }}</pre>
     </div>
 
   </div>
@@ -58,12 +60,13 @@
 
 <script>
   const { shell } = require('electron')
-  const execSync = require('child_process').execSync
+  const { exec } = require('child_process')
 
   export default {
     data () {
       return {
         command: null,
+        pullError: null,
         isLoading: false
       }
     },
@@ -90,6 +93,19 @@
       }
     },
     methods: {
+      dockerPull (name, loading) {
+        const cmd = `docker pull ${name}`
+        exec(cmd, (error, stdout, stderr) => {
+          if (error) {
+            this.pullError = String(error)
+            loading.close()
+            console.log(this.pullError)
+            return
+          }
+          this.command = cmd
+          loading.close()
+        })
+      },
       view () {
         const baseUrl = 'https://hub.docker.com/'
         const path = this.official
@@ -99,11 +115,8 @@
         shell.openExternal(`${baseUrl}${path}/${this.name}`)
       },
       pull () {
-        this.isLoading = true
-        this.command = `docker pull ${this.name}`
-        const result = execSync(this.command).toString()
-        console.log(result)
-        this.isLoading = false
+        const loading = this.$loading.open()
+        this.dockerPull(this.name, loading)
       }
     }
   }

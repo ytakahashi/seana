@@ -82,7 +82,6 @@
       },
       searchImage (value) {
         const res = this.runCommand(`docker search "${value}" --no-trunc --format "{{.Name}}#{{.Description}}#{{.StarCount}}#{{.IsOfficial}}#{{.IsAutomated}}"`)
-        console.log(res)
         this.updateResults(res.split(/\r\n|\r|\n/))
       },
       updateResults (textArray) {
