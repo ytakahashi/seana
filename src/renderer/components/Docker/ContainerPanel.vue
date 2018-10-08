@@ -31,18 +31,20 @@
     <div class="content">
       <div class="field has-addons" v-if="commandSucceeded">
 
-        <article class="message is-warning">
-          <div class="message-body">
-            following command has been run: <br />
-            <code>
-            $ {{ executedCommand }}
-            </code>
+        <div class="field has-addons" v-if="command">
+
+          <div class="command-succeed-msg-box">
+              <p>following command has been run:</p>
+              <code>
+              $ {{ executedCommand }}
+              </code>
           </div>
-        </article>
+
+        </div>
 
       </div>
 
-      <div class="pull-err-msg-box" v-if="commandError">
+      <div class="command-err-msg-box" v-if="commandError">
         <span class="box-title">Command Failed</span>
         <pre>{{ commandError }}</pre>
       </div>
@@ -151,27 +153,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .pull-err-msg-box {
-      position: relative;
-      padding: 30px 10px 10px;
-      border: solid 2px #ff7f50;
-      border-radius: 10px 10px 10px 10px;
-  }
-
-  .pull-err-msg-box .box-title {
-      position: absolute;
-      display: inline-block;
-      top: -2px;
-      left: -2px;
-      padding: 0 9px;
-      height: 25px;
-      line-height: 25px;
-      vertical-align: middle;
-      font-size: 17px;
-      background: #ff7f50;
-      color: #ffffff;
-      font-weight: bold;
-  }
-</style>

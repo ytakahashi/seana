@@ -39,7 +39,7 @@
     <div class="content">
       <div class="field has-addons" v-if="command">
 
-        <div class="pull-succeed-msg-box">
+        <div class="command-succeed-msg-box">
             <p>following command has been run:</p>
             <code>
             $ {{ command }}
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div class="pull-err-msg-box" v-if="pullError">
+    <div class="command-err-msg-box" v-if="pullError">
       <span class="box-title">Failed to pull image.</span>
       <pre>{{ pullError }}</pre>
     </div>
@@ -121,36 +121,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .pull-succeed-msg-box {
-      padding: 2em 1em;
-      margin: 0em;
-      color: #474747;
-      background: rgb(246, 253, 252);
-      border-left: double 7px #4ec4d3;
-      border-right: double 7px #4ec4d3;
-  }
-
-  .pull-err-msg-box {
-      position: relative;
-      padding: 30px 10px 10px;
-      border: solid 2px #ff7f50;
-      border-radius: 10px 10px 10px 10px;
-  }
-
-  .pull-err-msg-box .box-title {
-      position: absolute;
-      display: inline-block;
-      top: -2px;
-      left: -2px;
-      padding: 0 9px;
-      height: 25px;
-      line-height: 25px;
-      vertical-align: middle;
-      font-size: 17px;
-      background: #ff7f50;
-      color: #ffffff;
-      font-weight: bold;
-  }
-</style>
