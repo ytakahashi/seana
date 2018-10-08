@@ -37,18 +37,27 @@
     </div>
 
     <div class="content">
-      <div class="field has-addons" v-if="executedCommand">
 
-        <article class="message is-warning">
-          <div class="message-body">
-            following command has been run: <br />
-            <code>
-            $ {{ executedCommand }}
-            </code>
+      <div class="field has-addons">
+
+        <div class="field has-addons" v-if="commandSucceeded">
+
+          <div class="command-succeed-msg-box">
+              <p>following command has been run:</p>
+              <code>
+              $ {{ executedCommand }}
+              </code>
           </div>
-        </article>
+
+        </div>
 
       </div>
+
+      <div class="command-err-msg-box" v-if="commandError">
+        <span class="box-title">Command Failed</span>
+        <pre>{{ commandError }}</pre>
+      </div>
+
     </div>
 
   </div>
@@ -56,24 +65,39 @@
 </template>
 
 <script>
-  const execSync = require('child_process').execSync
+  const { exec } = require('child_process')
 
   export default {
     methods: {
-      runCommand (command) {
-        return execSync(command).toString()
+      runCommand (cmd, loading) {
+        exec(cmd, (error, stdout, stderr) => {
+          if (error) {
+            this.commandError = String(error)
+            this.commandSucceeded = false
+            loading.close()
+            return
+          }
+          this.commandSucceeded = true
+          this.commandError = null
+          loading.close()
+        })
       },
       runContainer () {
         this.showRunContainer = true
       },
+      startLoading () {
+        return this.$loading.open()
+      },
       execRunContainer (repository, tag, option) {
+        const loading = this.startLoading()
         const command = `docker run ${option === null ? '' : option} ${repository}:${tag}`
-        this.runCommand(command)
+        this.runCommand(command, loading)
         this.executedCommand = command
       },
       deleteImage () {
+        const loading = this.startLoading()
         const command = `docker image rm ${this.repository}:${this.tag}`
-        this.runCommand(command)
+        this.runCommand(command, loading)
         this.executedCommand = command
       }
     },
@@ -101,6 +125,8 @@
     },
     data () {
       return {
+        commandSucceeded: null,
+        commandError: null,
         input: null,
         showRunContainer: null,
         executedCommand: null

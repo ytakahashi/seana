@@ -4,7 +4,7 @@ import App from './App'
 import router from './router'
 import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
-import './assets/box.styl'
+import './assets/seana.styl'
 
 Vue.use(Buefy)
 
