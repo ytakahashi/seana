@@ -46,15 +46,6 @@
             </code>
         </div>
 
-        <!-- <article class="message is-warning">
-          <div class="message-body">
-            following command has been run: <br />
-            <code>
-            $ {{ command }}
-            </code>
-          </div>
-        </article> -->
-
       </div>
     </div>
 

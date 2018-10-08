@@ -29,25 +29,31 @@
     </div>
 
     <div class="content">
-      <div class="field has-addons" v-if="executed">
+      <div class="field has-addons" v-if="commandSucceeded">
 
         <article class="message is-warning">
           <div class="message-body">
             following command has been run: <br />
             <code>
-            $ docer {{ executed }} {{ containerId }}
+            $ {{ executedCommand }}
             </code>
           </div>
         </article>
 
       </div>
+
+      <div class="pull-err-msg-box" v-if="commandError">
+        <span class="box-title">Command Failed</span>
+        <pre>{{ commandError }}</pre>
+      </div>
+
     </div>
 
   </div>
 </template>
 
 <script>
-  const execSync = require('child_process').execSync
+  const { exec } = require('child_process')
 
   export default {
     props: {
@@ -81,38 +87,58 @@
       }
     },
     methods: {
-      runCommand (command) {
-        return execSync(command).toString()
+      runCommand (cmd, loading, callback) {
+        exec(cmd, (error, stdout, stderr) => {
+          if (error) {
+            this.commandError = String(error)
+            this.commandSucceeded = false
+            loading.close()
+            return
+          }
+          callback()
+          this.commandSucceeded = true
+          loading.close()
+        })
       },
       startContainer (containerId) {
-        this.commandResult = this.runCommand(`docker start ${containerId}`)
-        this.running = true
-        this.stopping = false
-        this.deleted = false
-        this.executed = 'start'
+        const loading = this.$loading.open()
+        this.executedCommand = `docker start ${containerId}`
+        const callback = () => {
+          this.running = true
+          this.stopping = false
+          this.deleted = false
+        }
+        this.runCommand(this.executedCommand, loading, callback)
       },
       stopContainer (containerId) {
-        this.commandResult = this.runCommand(`docker stop ${containerId}`)
-        this.running = false
-        this.stopping = true
-        this.deleted = false
-        this.executed = 'stop'
+        const loading = this.$loading.open()
+        this.executedCommand = `docker stop ${containerId}`
+        const callback = () => {
+          this.running = false
+          this.stopping = true
+          this.deleted = false
+        }
+        this.runCommand(this.executedCommand, loading, callback)
       },
       deleteContainer (containerId) {
-        this.commandResult = this.runCommand(`docker rm ${containerId}`)
-        this.running = false
-        this.stopping = false
-        this.deleted = true
-        this.executed = 'rm'
+        const loading = this.$loading.open()
+        this.executedCommand = `docker rm ${containerId}`
+        const callback = () => {
+          this.running = false
+          this.stopping = false
+          this.deleted = true
+        }
+        this.runCommand(this.executedCommand, loading, callback)
       }
     },
     data () {
       return {
-        executed: null,
-        commandResult: null,
+        commandSucceeded: null,
+        commandError: null,
         running: null,
         stopping: null,
-        deleted: null
+        deleted: null,
+        executedCommand: null
       }
     },
     mounted () {
@@ -125,3 +151,27 @@
     }
   }
 </script>
+
+<style scoped>
+  .pull-err-msg-box {
+      position: relative;
+      padding: 30px 10px 10px;
+      border: solid 2px #ff7f50;
+      border-radius: 10px 10px 10px 10px;
+  }
+
+  .pull-err-msg-box .box-title {
+      position: absolute;
+      display: inline-block;
+      top: -2px;
+      left: -2px;
+      padding: 0 9px;
+      height: 25px;
+      line-height: 25px;
+      vertical-align: middle;
+      font-size: 17px;
+      background: #ff7f50;
+      color: #ffffff;
+      font-weight: bold;
+  }
+</style>

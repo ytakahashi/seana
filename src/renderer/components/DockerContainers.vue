@@ -48,7 +48,7 @@
 
         </b-field>
 
-        <container-panel v-for="container in filteredContainers" :key="container.containerId+container.created"
+        <container-panel v-for="container in filteredContainers" :key="container.containerId+container.image"
           :containerId="container.containerId"
           :image="container.image"
           :command="container.command"
@@ -110,6 +110,9 @@
     computed: {
       filteredContainers () {
         const query = this.searchQuery
+        if (this.containerList === null) {
+          return null
+        }
 
         if (this.filterProperty === '' || this.filterProperty === 'filter_name') {
           return this.containerList.filter(c =>
