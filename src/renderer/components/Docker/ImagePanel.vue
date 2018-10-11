@@ -2,13 +2,19 @@
   <div class="box">
 
     <div class="content">
-      <p>
-        <font size="4"><strong>{{ repository }}:{{ tag }} </strong></font> <small> ImageID: {{ imageId }}</small>
-        <br />
-        - created: {{ created }} <br />
-        - size: {{ size }}
-      </p>
 
+      <p class="box-list-title">{{ repository }}:{{ tag }} <span>(ID: {{ imageId }})</span></p>
+
+      <div class="content">
+        <ul class="box-list-text">
+          <li>created: {{ created }}</li>
+          <li>size: {{ size }}</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="content">
       <a class="button is-link is-outlined" @click="runContainer">Run a container</a>
       <a class="button is-danger is-outlined" @click="deleteImage">Delete This Image</a>
     </div>
@@ -134,3 +140,9 @@
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+span
+  font-size: 15px
+  font-weight: 500
+</style>

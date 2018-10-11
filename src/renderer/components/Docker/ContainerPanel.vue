@@ -3,23 +3,29 @@
 
     <div class="columns">
       <div class="column is-three-quarters">
-        <font size="4"><strong>{{ names }} ({{ containerId }}) </strong></font>
+        <p class="box-list-title">{{ names }} <span>(ID: {{ containerId }})</span></p>
       </div>
-      <div class="column">
-        <span v-if="running" class="tag is-info">Running</span>
-        <span v-if="stopping" class="tag is-warning">Stopping</span>
-        <span v-if="deleted" class="tag is-danger">Deleted</span>
-      </div>
+
+      <b-taglist v-if="running" attached>
+        <b-tag type="is-info">Running</b-tag>
+      </b-taglist>
+      <b-taglist v-if="stopping" attached>
+        <b-tag type="is-warning">Stopping</b-tag>
+      </b-taglist>
+      <b-taglist v-if="deleted" attached>
+        <b-tag type="is-danger">Deleted</b-tag>
+      </b-taglist>
+
     </div>
 
     <div class="content">
-      <p>
-        - Image: {{ image }} <br />
-        - created: {{ created }} <br />
-        - command: {{ command }} <br />
-        - status: {{ status }} <br />
-        - ports: {{ ports }}
-      </p>
+      <ul class="box-list-text">
+        <li>Image: {{ image }}</li>
+        <li>created: {{ created }}</li>
+        <li>command: {{ command }}</li>
+        <li>status: {{ status }}</li>
+        <li>ports: {{ ports }}</li>
+      </ul>
     </div>
 
     <div class="content">
@@ -153,3 +159,9 @@
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+span
+  font-size: 15px
+  font-weight: 500
+</style>

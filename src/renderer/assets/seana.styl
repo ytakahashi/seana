@@ -1,10 +1,10 @@
-error_color = #ff7f50
-success_color = #4ec4d3
+error-color = #ff7f50
+success-color = #4ec4d3
 
 .command-err-msg-box
   position: relative
   padding: 30px 10px 10px
-  border: solid 2px error_color
+  border: solid 2px error-color
   border-radius: 10px 10px 10px 10px
 
 .command-err-msg-box .box-title
@@ -17,7 +17,7 @@ success_color = #4ec4d3
   line-height: 25px
   vertical-align: middle
   font-size: 17px
-  background: error_color
+  background: error-color
   color: #ffffff
   font-weight: bold
 
@@ -26,5 +26,52 @@ success_color = #4ec4d3
   margin: 0em
   color: #474747
   background: rgb(246, 253, 252)
-  border-left: double 7px success_color
-  border-right: double 7px success_color
+  border-left: double 7px success-color
+  border-right: double 7px success-color
+
+box-list-text-color = rgb(9, 76, 134)
+
+p.box-list-title
+  padding: 0em 0.5em
+  color: box-list-text-color
+  font-weight: 600
+  font-size: 20px
+
+ul.box-list-text
+  padding: 0
+  width:370px
+  list-style: none
+
+ul.box-list-text li
+  position: relative
+  padding: 0.5em 0em 0.5em 2em
+  margin-bottom: 0px
+  color: box-list-text-color
+  font-size: 15px
+  font-weight: bold
+  border-bottom: 1px solid rgba(129,194,250, 0.5)
+
+ul.box-list-text li:after,
+ul.box-list-text li:before
+  content: ""
+  position: absolute
+  border-radius: 50%
+
+ul.box-list-text li:before
+  left: 0em
+  width: 16px
+  height: 16px
+  background: rgba(47, 153, 247, 0.5)
+  top: 50%
+  -moz-transform: translateY(-50%)
+  -webkit-transform: translateY(-50%)
+  -o-transform: translateY(-50%)
+  -ms-transform: translateY(-50%)
+  transform: translateY(-50%)
+
+ul.box-list-text li:after
+  top: 1.2em
+  left: 0.5em
+  width: 12px
+  height: 12px
+  background: rgba(47, 153, 247, 0.3)
