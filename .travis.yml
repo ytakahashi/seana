@@ -6,20 +6,20 @@ dist: trusty
 language: c
 matrix:
   include:
-  - os: osx
-  - os: linux
-    env: CC=clang CXX=clang++ npm_config_clang=1
-    compiler: clang
+    - os: osx
+    - os: linux
+      env: CC=clang CXX=clang++ npm_config_clang=1
+      compiler: clang
 cache:
   directories:
-  - node_modules
-  - "$HOME/.electron"
-  - "$HOME/.cache"
+    - node_modules
+    - "$HOME/.electron"
+    - "$HOME/.cache"
 addons:
   apt:
     packages:
-    - libgnome-keyring-dev
-    - icnsutils
+      - libgnome-keyring-dev
+      - icnsutils
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install git-lfs; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils; fi
@@ -32,4 +32,4 @@ install:
 script:
   - xvfb-maybe node_modules/.bin/karma start test/unit/karma.conf.js
   - yarn run pack && xvfb-maybe node_modules/.bin/mocha test/e2e
-  - if [ "$TRAVIS_BRANCH" = "master" ]; then yarn run build; fi
+  - yarn run build
