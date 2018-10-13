@@ -6,14 +6,14 @@
         <p class="box-list-title">{{ names }} <span>(ID: {{ containerId }})</span></p>
       </div>
 
-      <b-taglist v-if="running" attached>
-        <b-tag type="is-info">Running</b-tag>
-      </b-taglist>
-      <b-taglist v-if="stopping" attached>
-        <b-tag type="is-warning">Stopping</b-tag>
-      </b-taglist>
       <b-taglist v-if="deleted" attached>
         <b-tag type="is-danger">Deleted</b-tag>
+      </b-taglist>
+      <b-taglist v-else-if="running" attached>
+        <b-tag type="is-info">Up</b-tag>
+      </b-taglist>
+      <b-taglist v-else-if="stopping" attached>
+        <b-tag type="is-warning">Exited</b-tag>
       </b-taglist>
 
     </div>
@@ -112,8 +112,6 @@
         const loading = this.$loading.open()
         this.executedCommand = `docker start ${containerId}`
         const callback = () => {
-          this.running = true
-          this.stopping = false
           this.deleted = false
         }
         this.runCommand(this.executedCommand, loading, callback)
@@ -122,8 +120,6 @@
         const loading = this.$loading.open()
         this.executedCommand = `docker stop ${containerId}`
         const callback = () => {
-          this.running = false
-          this.stopping = true
           this.deleted = false
         }
         this.runCommand(this.executedCommand, loading, callback)
@@ -132,8 +128,6 @@
         const loading = this.$loading.open()
         this.executedCommand = `docker rm ${containerId}`
         const callback = () => {
-          this.running = false
-          this.stopping = false
           this.deleted = true
         }
         this.runCommand(this.executedCommand, loading, callback)
@@ -143,18 +137,26 @@
       return {
         commandSucceeded: null,
         commandError: null,
-        running: null,
-        stopping: null,
         deleted: null,
         executedCommand: null
       }
     },
-    mounted () {
-      const containerStatus = this.status.split(/\s/)[0]
-      if (containerStatus === 'Up') {
-        this.running = true
-      } else {
-        this.stopping = true
+    computed: {
+      running () {
+        const containerStatus = this.status.split(/\s/)[0]
+        if (containerStatus === 'Up') {
+          return true
+        } else {
+          return false
+        }
+      },
+      stopping () {
+        const containerStatus = this.status.split(/\s/)[0]
+        if (containerStatus === 'Exited') {
+          return true
+        } else {
+          return false
+        }
       }
     }
   }

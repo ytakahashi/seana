@@ -51,8 +51,8 @@ describe('ContainerPanel.vue (2)', () => {
       stubs: stubs
     })
 
-    expect(wrapper.vm.$data.running).to.be.true
-    expect(wrapper.vm.$data.stopping).to.be.null
+    expect(wrapper.vm.running).to.be.true
+    expect(wrapper.vm.stopping).to.be.false
   })
 
   it('can correctly reflect container status (stopping)', () => {
@@ -69,7 +69,7 @@ describe('ContainerPanel.vue (2)', () => {
       stubs: stubs
     })
 
-    expect(wrapper.vm.$data.running).to.be.null
-    expect(wrapper.vm.$data.stopping).to.be.true
+    expect(wrapper.vm.running).to.be.false
+    expect(wrapper.vm.stopping).to.be.true
   })
 })
