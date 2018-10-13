@@ -6,14 +6,14 @@
         <p class="box-list-title">{{ names }} <span>(ID: {{ containerId }})</span></p>
       </div>
 
-      <b-taglist v-if="running" attached>
-        <b-tag type="is-info">Up</b-tag>
-      </b-taglist>
-      <b-taglist v-if="stopping" attached>
-        <b-tag type="is-warning">Exited</b-tag>
-      </b-taglist>
       <b-taglist v-if="deleted" attached>
         <b-tag type="is-danger">Deleted</b-tag>
+      </b-taglist>
+      <b-taglist v-else-if="running" attached>
+        <b-tag type="is-info">Up</b-tag>
+      </b-taglist>
+      <b-taglist v-else-if="stopping" attached>
+        <b-tag type="is-warning">Exited</b-tag>
       </b-taglist>
 
     </div>

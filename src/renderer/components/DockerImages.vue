@@ -16,8 +16,18 @@
         </ul>
       </div>
 
-      <div v-if="imageCmdCalled" class="column is-8 is-offset-2">
-        <a class="button is-outlined" @click="callImage">Refresh</a>
+      <div class="columns"><div class="column"></div></div>
+
+      <div class="columns">
+
+        <div class="column is-half is-offset-2 listing-message" v-if="imageList">
+          You have {{ imageList.length }} images.
+        </div>
+
+        <div class="column" v-if="imageCmdCalled">
+          <a class="button is-outlined" @click="callImage(true)">Refresh</a>
+        </div>
+
       </div>
 
       <div v-if="imageCmdCalled" class="column is-8 is-offset-2">
@@ -77,7 +87,7 @@
       }
     },
     mounted () {
-      this.callImage()
+      this.callImage(false)
     },
     computed: {
       filteredImages () {
@@ -88,9 +98,12 @@
       }
     },
     methods: {
-      async callImage () {
+      async callImage (showsToast) {
         const val = await execute('docker images')
         this.updateImageList(val.split(/\r\n|\r|\n/))
+        if (showsToast) {
+          this.showRefreshedMessage()
+        }
       },
       updateImageList (textArray) {
         this.imageCmdCalled = true
@@ -103,6 +116,12 @@
         if (this.imageList.length === 0) {
           console.log('No Images.')
         }
+      },
+      showRefreshedMessage () {
+        this.$toast.open({
+          message: 'Refreshed docker images.',
+          type: 'is-success'
+        })
       }
     }
   }

@@ -16,8 +16,18 @@
         </ul>
       </div>
 
-      <div  v-if="containerCmdCalled" class="column is-8 is-offset-2">
-        <a class="button is-outlined" @click="callContainer">Refresh</a>
+      <div class="columns"><div class="column"></div></div>
+
+      <div class="columns">
+
+        <div class="column is-half is-offset-2 listing-message" v-if="containerList">
+          You have {{ containerList.length }} containers.
+        </div>
+
+        <div class="column" v-if="containerCmdCalled">
+          <a class="button is-outlined" @click="callContainer(true)">Refresh</a>
+        </div>
+
       </div>
 
       <div  v-if="containerCmdCalled" class="column is-8 is-offset-2">
@@ -105,7 +115,7 @@
       }
     },
     mounted () {
-      this.callContainer()
+      this.callContainer(false)
     },
     computed: {
       filteredContainers () {
@@ -129,9 +139,12 @@
       }
     },
     methods: {
-      async callContainer () {
+      async callContainer (showsToast) {
         const val = await execute('docker container ls -a')
         this.updateContainerList(val.split(/\r\n|\r|\n/))
+        if (showsToast) {
+          this.showRefreshedMessage()
+        }
       },
       updateContainerList (textArray) {
         this.containerCmdCalled = true
@@ -144,6 +157,12 @@
         if (this.containerList.length === 0) {
           console.log('No Containers.')
         }
+      },
+      showRefreshedMessage () {
+        this.$toast.open({
+          message: 'Refreshed docker containers.',
+          type: 'is-success'
+        })
       }
     }
   }
