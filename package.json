@@ -1,6 +1,6 @@
 {
   "name": "seana",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "ytakahashi <yt01tc@gmail.com>",
   "description": "A graphical UI for docker",
   "license": "MIT",
