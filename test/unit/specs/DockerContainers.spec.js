@@ -12,9 +12,8 @@ describe('DockerContainers.vue', () => {
       containerList: null
     }
     const strL = [
-      'CONTAINER ID   IMAGE    COMMAND   CREATED           STATUS                    PORTS                     NAMES',
-      '57dce3fcc614   image1   "foo"     26 hours ago      Up 8 hours                0.0.0.0:6400->6379/tcp    test1',
-      '0f3fb512c943   image2   "bar"     10 minutes ago    Exited (0) 1 minute ago                             test2',
+      '57dce3fcc614#image1#"foo"#26 hours ago#Up 8 hours#0.0.0.0:6400->6379/tcp#test1',
+      '0f3fb512c943#image2#"bar"#10 minutes ago#Exited (0) 1 minute ago##test2',
       ''
     ]
     DockerContainers.methods.updateContainerList.call(localThis, strL)
