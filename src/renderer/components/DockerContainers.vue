@@ -84,19 +84,14 @@
 
   class DockerContainer {
     constructor (source) {
-      const values = source.split(/\s\s+/)
+      const values = source.split('#')
       this.containerId = values[0]
       this.image = values[1]
       this.command = values[2]
       this.created = values[3]
       this.status = values[4]
-      if (values[6]) {
-        this.ports = values[5]
-        this.names = values[6]
-      } else {
-        this.ports = 'N/A'
-        this.names = values[5]
-      }
+      this.ports = values[5] === '' ? 'N/A' : values[5]
+      this.names = values[6]
     }
   }
 
@@ -140,7 +135,7 @@
     },
     methods: {
       async callContainer (showsToast) {
-        const val = await execute('docker container ls -a')
+        const val = await execute('docker container ls -a --format "{{.ID}}#{{.Image}}#{{.Command}}#{{.RunningFor}} ago#{{.Status}}#{{.Ports}}#{{.Names}}"')
         this.updateContainerList(val.split(/\r\n|\r|\n/))
         if (showsToast) {
           this.showRefreshedMessage()
@@ -150,7 +145,7 @@
         this.containerCmdCalled = true
 
         this.containerList = []
-        for (let i = 1; i < textArray.length - 1; i++) {
+        for (let i = 0; i < textArray.length - 1; i++) {
           this.containerList.push(new DockerContainer(textArray[i]))
         }
 
