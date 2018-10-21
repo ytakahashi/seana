@@ -64,7 +64,7 @@
 
   class DockerImage {
     constructor (source) {
-      const values = source.split(/\s\s+/)
+      const values = source.split('#')
       this.repo = values[0]
       this.tag = values[1]
       this.imageId = values[2]
@@ -99,7 +99,7 @@
     },
     methods: {
       async callImage (showsToast) {
-        const val = await execute('docker images')
+        const val = await execute('docker image ls --format "{{.Repository}}#{{.Tag}}#{{.ID}}#{{.CreatedSince}} ago#{{.Size}}"')
         this.updateImageList(val.split(/\r\n|\r|\n/))
         if (showsToast) {
           this.showRefreshedMessage()
@@ -109,7 +109,7 @@
         this.imageCmdCalled = true
 
         this.imageList = []
-        for (let i = 1; i < textArray.length - 1; i++) {
+        for (let i = 0; i < textArray.length - 1; i++) {
           this.imageList.push(new DockerImage(textArray[i]))
         }
 
