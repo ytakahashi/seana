@@ -35,7 +35,7 @@
         <b-field grouped>
 
           <b-field label="Filter by">
-            <b-select v-model="filterProperty">
+            <b-select placeholder="Select filter" v-model="filterProperty">
               <option value="filter_name" selected>
                 Container Name
               </option>
@@ -141,7 +141,7 @@
           return null
         }
 
-        if (this.filterProperty === '' || this.filterProperty === 'filter_name') {
+        if (this.filterProperty === 'filter_name') {
           return this.containerList.filter(c =>
             c.names.indexOf(query) !== -1
           )
@@ -166,7 +166,7 @@
           return this.containerList.filter(cb)
         }
         return this.containerList.filter(c =>
-          c.status.indexOf(query) !== -1
+          c.names.indexOf(query) !== -1
         )
       }
     },

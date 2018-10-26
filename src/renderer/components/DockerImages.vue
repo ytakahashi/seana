@@ -32,12 +32,27 @@
 
       <div v-if="imageCmdCalled" class="column is-8 is-offset-2">
 
-        <b-field>
-          <b-input
-            placeholder="Filter images..."
-            type="search"
-            v-model="searchQuery">
-          </b-input>
+        <b-field grouped>
+
+          <b-field label="Filter by">
+            <b-select placeholder="Select filter" v-model="filterProperty">
+              <option value="filter_name" selected>
+                Repository Name
+              </option>
+              <option value="filter_id">
+                Image ID
+              </option>
+            </b-select>
+          </b-field>
+
+          <b-field label="Query" expanded>
+            <b-input
+              placeholder="Filter images..."
+              type="search"
+              v-model="searchQuery">
+            </b-input>
+          </b-field>
+
         </b-field>
 
         <image-panel v-for="image in filteredImages" :key="image.repo+image.tag+image.imageId"
@@ -79,6 +94,7 @@
     },
     data () {
       return {
+        filterProperty: '',
         searchQuery: '',
         input: '',
         result: null,
@@ -92,6 +108,18 @@
     computed: {
       filteredImages () {
         const query = this.searchQuery
+        if (this.imageList === null) {
+          return null
+        }
+        if (this.filterProperty === 'filter_name') {
+          return this.imageList.filter(
+            image => image.repo.indexOf(query) !== -1
+          )
+        } else if (this.filterProperty === 'filter_id') {
+          return this.imageList.filter(
+            image => image.imageId.indexOf(query) !== -1
+          )
+        }
         return this.imageList.filter(
           image => image.repo.indexOf(query) !== -1
         )

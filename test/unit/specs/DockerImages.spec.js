@@ -29,13 +29,13 @@ describe('DockerImages.vue', () => {
     expect(localThis.imageList[1]).to.deep.equal(expected1)
   })
 
-  it('should compute filteredImages (name: "test")', () => {
-    const image1 = { repo: 'test', tag: '1.0', imageId: 'imageId', created: 'created', size: 'size' }
-    const image2 = { repo: 'foo', tag: '2.0', imageId: 'imageId', created: 'created', size: 'size' }
-    const image3 = { repo: 'bar', tag: '1.4', imageId: 'imageId', created: 'created', size: 'size' }
-    const image4 = { repo: 'baz', tag: '5.0', imageId: 'imageId', created: 'created', size: 'size' }
-    const imageList = [image1, image2, image3, image4]
+  const image1 = { repo: 'test', tag: '1.0', imageId: 'aaaaa', created: 'created', size: '10MB' }
+  const image2 = { repo: 'foo', tag: '2.0', imageId: 'bbbbb', created: 'created', size: '123MB' }
+  const image3 = { repo: 'bar', tag: '1.4', imageId: 'abcde', created: 'created', size: '50MB' }
+  const image4 = { repo: 'baz', tag: '5.0', imageId: 'a1234', created: 'created', size: '300MB' }
+  const imageList = [image1, image2, image3, image4]
 
+  it('should compute filteredImages (repo name: "test")', () => {
     const wrapper = shallowMount(DockerImages)
     wrapper.setData({
       imageList: imageList,
@@ -44,5 +44,17 @@ describe('DockerImages.vue', () => {
 
     expect(wrapper.vm.filteredImages).to.be.an('array').that.has.lengthOf(1)
     expect(wrapper.vm.filteredImages[0]).to.deep.equal(image1)
+  })
+
+  it('should compute filteredImages (image id: "abc")', () => {
+    const wrapper = shallowMount(DockerImages)
+    wrapper.setData({
+      imageList: imageList,
+      searchQuery: 'abc',
+      filterProperty: 'filter_id'
+    })
+
+    expect(wrapper.vm.filteredImages).to.be.an('array').that.has.lengthOf(1)
+    expect(wrapper.vm.filteredImages[0]).to.deep.equal(image3)
   })
 })
