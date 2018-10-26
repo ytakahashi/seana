@@ -48,9 +48,29 @@
             </b-select>
           </b-field>
 
-          <b-field label="Query" expanded>
+          <section v-if="filterProperty === 'filter_status'">
+            <div class="status-filter">
+              <p>Status</p>
+            </div>
+
+            <div class="status-switches">
+              <span class="field">
+                <b-switch v-model="searchUp">
+                  Show Up
+                </b-switch>
+              </span>
+
+              <span class="field">
+                <b-switch v-model="searchExited">
+                  Show Exited
+                </b-switch>
+              </span>
+            </div>
+          </section>
+
+          <b-field v-else label="Query" expanded>
             <b-input
-              placeholder="Filter images..."
+              placeholder="Filter containers..."
               type="search"
               v-model="searchQuery">
             </b-input>
@@ -106,7 +126,9 @@
         input: '',
         result: null,
         containerCmdCalled: null,
-        containerList: null
+        containerList: null,
+        searchUp: true,
+        searchExited: true
       }
     },
     mounted () {
@@ -127,6 +149,21 @@
           return this.containerList.filter(c =>
             c.image.indexOf(query) !== -1
           )
+        } else if (this.filterProperty === 'filter_status') {
+          const cb = c => {
+            if (this.searchUp) {
+              if (c.status.startsWith('Up')) {
+                return true
+              }
+            }
+            if (this.searchExited) {
+              if (c.status.startsWith('Exited')) {
+                return true
+              }
+            }
+            return false
+          }
+          return this.containerList.filter(cb)
         }
         return this.containerList.filter(c =>
           c.status.indexOf(query) !== -1
@@ -162,3 +199,15 @@
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+  .status-filter
+    margin-left: 30px
+
+  .status-switches
+    @extend .status-filter
+    margin-top: 15px
+
+  p
+    font-weight: 600
+</style>

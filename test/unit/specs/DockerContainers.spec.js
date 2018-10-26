@@ -78,7 +78,8 @@ describe('DockerContainers.vue', () => {
 
     wrapper.setData({
       containerList: containerList,
-      searchQuery: 'Up',
+      searchUp: true,
+      searchExited: false,
       filterProperty: 'filter_status'
     })
 
