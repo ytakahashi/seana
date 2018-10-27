@@ -29,7 +29,7 @@ describe('DockerContainers.vue', () => {
     expect(localThis.containerList[1]).to.deep.equal(expected1)
   })
 
-  const stubs = ['b-field', 'b-select', 'b-input']
+  const stubs = ['b-field', 'b-select', 'b-input', 'b-switch']
   const container1 = { names: 'test', image: 'sample1', status: 'Up 8 hours', containerId: 'containerId', command: 'command', created: 'created', ports: 'ports' }
   const container2 = { names: 'foo', image: 'alpine', status: 'Exited (0) 1 minute ago', containerId: 'containerId', command: 'command', created: 'created', ports: 'ports' }
   const container3 = { names: 'bar', image: 'nginx', status: 'Up 10 minutes', containerId: 'containerId', command: 'command', created: 'created', ports: 'ports' }
@@ -78,7 +78,8 @@ describe('DockerContainers.vue', () => {
 
     wrapper.setData({
       containerList: containerList,
-      searchQuery: 'Up',
+      searchUp: true,
+      searchExited: false,
       filterProperty: 'filter_status'
     })
 
