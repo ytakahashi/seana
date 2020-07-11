@@ -59,8 +59,9 @@
 </template>
 
 <script>
-  const { shell } = require('electron')
-  const { exec } = require('child_process')
+  const { exec } = window.require('child_process')
+  const electron = window.require('electron')
+  const shell = electron.shell
 
   export default {
     data () {
@@ -95,7 +96,7 @@
     methods: {
       dockerPull (name, loading) {
         const cmd = `docker pull ${name}`
-        exec(cmd, (error, stdout, stderr) => {
+        exec(cmd, (error, stdout, stderr) => { // eslint-disable-line no-unused-vars
           if (error) {
             this.pullError = String(error)
             loading.close()

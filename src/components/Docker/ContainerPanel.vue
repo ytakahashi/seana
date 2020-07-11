@@ -57,11 +57,15 @@
 
     </div>
 
+    <loading :active.sync="isLoading"></loading>
   </div>
 </template>
 
 <script>
-  const { exec } = require('child_process')
+  import Loading from 'vue-loading-overlay'
+  import 'vue-loading-overlay/dist/vue-loading.css'
+
+  const { exec } = window.require("child_process")
 
   export default {
     props: {
@@ -95,42 +99,42 @@
       }
     },
     methods: {
-      runCommand (cmd, loading, callback) {
-        exec(cmd, (error, stdout, stderr) => {
+      runCommand (cmd, callback) {
+        exec(cmd, (error, stdout, stderr) => { // eslint-disable-line no-unused-vars
           if (error) {
             this.commandError = String(error)
             this.commandSucceeded = false
-            loading.close()
+            this.isLoading = false
             return
           }
           callback()
           this.commandSucceeded = true
-          loading.close()
+          this.isLoading = false
         })
       },
       startContainer (containerId) {
-        const loading = this.$loading.open()
+        this.isLoading = true
         this.executedCommand = `docker start ${containerId}`
         const callback = () => {
           this.deleted = false
         }
-        this.runCommand(this.executedCommand, loading, callback)
+        this.runCommand(this.executedCommand, callback)
       },
       stopContainer (containerId) {
-        const loading = this.$loading.open()
+        this.isLoading = true
         this.executedCommand = `docker stop ${containerId}`
         const callback = () => {
           this.deleted = false
         }
-        this.runCommand(this.executedCommand, loading, callback)
+        this.runCommand(this.executedCommand, callback)
       },
       deleteContainer (containerId) {
-        const loading = this.$loading.open()
+        this.isLoading = true
         this.executedCommand = `docker rm ${containerId}`
         const callback = () => {
           this.deleted = true
         }
-        this.runCommand(this.executedCommand, loading, callback)
+        this.runCommand(this.executedCommand, callback)
       }
     },
     data () {
@@ -138,7 +142,8 @@
         commandSucceeded: null,
         commandError: null,
         deleted: null,
-        executedCommand: null
+        executedCommand: null,
+        isLoading: false
       }
     },
     computed: {
@@ -158,6 +163,9 @@
           return false
         }
       }
+    },
+    components: {
+      Loading
     }
   }
 </script>

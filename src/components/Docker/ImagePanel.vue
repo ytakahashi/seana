@@ -66,44 +66,49 @@
 
     </div>
 
+    <loading :active.sync="isLoading"></loading>
   </div>
 
 </template>
 
 <script>
-  const { exec } = require('child_process')
+  import Loading from 'vue-loading-overlay'
+  import 'vue-loading-overlay/dist/vue-loading.css'
+
+  const { exec } = window.require('child_process')
 
   export default {
     methods: {
-      runCommand (cmd, loading) {
-        exec(cmd, (error, stdout, stderr) => {
+      runCommand (cmd) {
+        exec(cmd, (error, stdout, stderr) => { // eslint-disable-line no-unused-vars
           if (error) {
             this.commandError = String(error)
             this.commandSucceeded = false
-            loading.close()
+            this.isLoading = false
             return
           }
           this.commandSucceeded = true
           this.commandError = null
-          loading.close()
+          this.isLoading = false
         })
       },
       runContainer () {
         this.showRunContainer = true
       },
       startLoading () {
-        return this.$loading.open()
+        this.isLoading = true
+        return {}
       },
       execRunContainer (repository, tag, option) {
-        const loading = this.startLoading()
+        this.isLoading = true
         const command = `docker run ${option === null ? '' : option} ${repository}:${tag}`
-        this.runCommand(command, loading)
+        this.runCommand(command)
         this.executedCommand = command
       },
       deleteImage () {
-        const loading = this.startLoading()
+        this.isLoading = true
         const command = `docker image rm ${this.repository}:${this.tag}`
-        this.runCommand(command, loading)
+        this.runCommand(command)
         this.executedCommand = command
       }
     },
@@ -135,8 +140,12 @@
         commandError: null,
         input: null,
         showRunContainer: null,
-        executedCommand: null
+        executedCommand: null,
+        isLoading: false
       }
+    },
+    components: {
+      Loading
     }
   }
 </script>
