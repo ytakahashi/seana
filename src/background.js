@@ -14,6 +14,15 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
+process.env.PATH = [
+  "/bin",
+  "/sbin",
+  "/usr/bin",
+  "/usr/sbin",
+  "/usr/local/bin",
+  process.env.PATH
+].join(":")
+
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({

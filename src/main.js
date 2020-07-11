@@ -4,8 +4,8 @@ import VuejsDialog from "vuejs-dialog"
 import App from "./App"
 import router from "./router"
 import Buefy from "buefy"
-import "buefy/dist/buefy.css"
 import "./assets/seana.styl"
+import "buefy/dist/buefy.css"
 import "vuejs-dialog/dist/vuejs-dialog.min.css"
 
 Vue.use(Buefy)
