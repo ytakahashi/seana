@@ -11,7 +11,7 @@
             <router-link to="/container">Containers</router-link>
           </li>
           <li class="is-active">
-            <router-link to="/image">Images</router-link>
+              <router-link to="/image">Images</router-link>
           </li>
         </ul>
       </div>
@@ -74,8 +74,8 @@
   import ImagePanel from './Docker/ImagePanel'
 
   const {promisify} = require('util')
-  const exec = require('child_process').exec
-  const execute = (arg) => promisify(exec)(arg)
+  const childProcess = window.require("child_process")
+  const execute = promisify(childProcess.exec)
 
   class DockerImage {
     constructor (source) {
@@ -146,10 +146,14 @@
         }
       },
       showRefreshedMessage () {
-        this.$toast.open({
-          message: 'Refreshed docker images.',
-          type: 'is-success'
-        })
+        this.$toasted.show(
+          'Refreshed docker images.',
+          {
+            theme: "outline",
+            position: "top-right",
+            duration : 2000
+          }
+        )
       }
     }
   }

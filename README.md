@@ -11,11 +11,11 @@ A simple graphical UI for docker.
 ```shell
 git clone https://github.com/ytakahashi/seana.git
 cd seana
-yarn
+yarn install
 ```
 
 ### Build App
 
 ```shell
-yarn build
+yarn electron:build
 ```

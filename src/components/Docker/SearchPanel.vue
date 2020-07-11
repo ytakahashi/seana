@@ -33,7 +33,7 @@
 <script>
   import SearchResult from './SearchResult'
 
-  const execSync = require('child_process').execSync
+  const execSync = window.require('child_process').execSync
   const ok = '[OK]'
 
   class DockerSearchResult {
@@ -69,16 +69,26 @@
         return execSync(command).toString()
       },
       prompt () {
-        this.$dialog.prompt({
-          message: `Input image name to search.`,
-          inputAttrs: {
-            placeholder: ''
-          },
-          onConfirm: (value) => {
-            this.$toast.open(`Searching ${value}...`)
-            this.searchImage(value)
-          }
-        })
+        this.$dialog
+          .prompt({
+            title: "Input image name to search",
+            body: "",
+            promptHelp: 'Type the name in the box below and click "[+:okText]"'
+          })
+          .then(dialog => {
+            this.$toasted.show(
+              `Searched ${dialog.data}.`,
+              {
+                theme: "outline",
+                position: "bottom-center",
+                duration : 2000
+              }
+            )
+            this.searchImage(dialog.data)
+          })
+          .catch(() => {
+            console.log('Prompt dismissed')
+          })
       },
       searchImage (value) {
         const res = this.runCommand(`docker search "${value}" --no-trunc --format "{{.Name}}#{{.Description}}#{{.StarCount}}#{{.IsOfficial}}#{{.IsAutomated}}"`)

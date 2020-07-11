@@ -99,8 +99,8 @@
   import ContainerPanel from './Docker/ContainerPanel'
 
   const {promisify} = require('util')
-  const exec = require('child_process').exec
-  const execute = (arg) => promisify(exec)(arg)
+  const childProcess = window.require("child_process")
+  const execute = promisify(childProcess.exec)
 
   class DockerContainer {
     constructor (source) {
@@ -191,10 +191,14 @@
         }
       },
       showRefreshedMessage () {
-        this.$toast.open({
-          message: 'Refreshed docker containers.',
-          type: 'is-success'
-        })
+        this.$toasted.show(
+          'Refreshed docker containers.',
+          {
+            theme: "outline",
+            position: "top-right",
+            duration : 2000
+          }
+        )
       }
     }
   }
