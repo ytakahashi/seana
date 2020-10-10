@@ -16,7 +16,6 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 12.x
           - 14.x
 
     steps:
@@ -30,3 +29,9 @@ jobs:
     - run: yarn electron:build
       env:
         CI: true
+    - name: upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: seana
+        path: dist_electron/Seana-*.dmg
+        if-no-files-found: error
